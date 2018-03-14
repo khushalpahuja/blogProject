@@ -1,0 +1,20 @@
+<div class="item">
+  <div class="image">
+      <img [src]="blog.image" >
+  </div>
+  <div class="content">
+       <a class="header">{{blog.title}}</a>
+       <div class="meta">
+           <span> Created</span>
+       </div>
+       <div class="description">
+           <p>{{ blog.body }}</p>
+       </div>
+       <div class="extra">
+           <a class="ui floated right basic blue button" [routerLink]="[index]" >
+               Read More
+               <i class="right chevron icon"></i>
+           </a>
+       </div>
+  </div>
+</div>

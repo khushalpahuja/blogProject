@@ -1,0 +1,11 @@
+<div class="ui main text container">
+  <div class="ui huge header">BLOGS</div>
+  <div class="ui top  attached segment">
+      <div class="ui divided items">
+        <app-blog-item 
+        *ngFor="let blog of blogs; let i = index"
+        [blog]="blog"
+        [index]="i"></app-blog-item>
+      </div>
+  </div>
+</div>

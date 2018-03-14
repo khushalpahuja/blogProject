@@ -1,0 +1,51 @@
+i.icon{
+	font-size: 2em;
+}
+
+.container.main{
+	margin-top: 7.0em;
+}
+img{
+	max-width: 100%;
+}
+
+.delete{
+	display: inline;
+}
+
+#userdata{
+	margin-top: 5em;
+	text-align: center;
+}
+
+.space{
+	margin-top: 90px;
+}
+#home-head{
+	margin: 70px auto;
+}
+#home-main-content{
+	background-image: url(http://www.ucost.in/blog/wp-content/uploads/2016/02/about-blg.jpg);
+	min-height: 500px;
+}
+#home-button{
+	margin-top: 370px;
+}
+
+
+.comment{
+	padding: 10px;
+}
+
+#admin-table{
+	padding: 20px;
+}
+#admin-table td{
+	padding: 40px;
+}
+
+.ui.container.centered.card.admin-active.space{
+	min-width: 600px;
+	margin-top: 80px;
+	padding: 20px 10px 10px;
+}

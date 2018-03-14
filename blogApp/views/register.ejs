@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+
+<div class="ui main text container segment">
+	<div class="ui huge header">Sign up</div>
+	<form class="ui form" action="/register" method="POST">
+		<div class="field">
+			<label>Username</label>
+			<input type="text" name="username" placeholder="username">
+		</div>
+		<div class="field">
+			<label>Password</label>
+			<input type="password" name="password" placeholder="password">
+		</div>
+		<div class="field">
+			<label>Type</label>
+			<select name="access" id="access">
+				<option value="user">User</option>
+				<option value="publisher">Publisher</option>
+			</select>
+		</div>
+		<div class="field">
+			<label>Date of Birth</label>
+			<input type="date" name="dob" placeholder="DOB">
+		</div>
+		<div class="field">
+			<label>Email</label>
+			<input type="email" name="email" placeholder="email">
+		</div>
+		<div class="field">
+			<label>Phone </label>
+			<input type="number" name="phone" placeholder="phone">
+		</div>
+		<button class="ui violet basic big button">Sign Up</button>
+	</form>
+</div>
+
+<% include ./partials/footer %>

@@ -1,0 +1,30 @@
+<% include ./partials/header %>
+<div class="space"></div>
+<div class="ui centered card">
+  <div class="ui huge centered header">  
+  User: <%=user.username%>
+</div>
+    <div class="image">
+      <img  src="<%=user.image%>">
+    </div>
+    <div class="content">
+      <a class="header"><%=user.username%></a>
+      <div class="description">
+         <p>D.O.B.: <%=user.dob%></p>
+         <p>Mobile Number : <%=user.phone%></p>
+         <p>Email:<%= user.email%></p>
+         <p>Type : <%=user.type%></p>
+         <p>Activation Status : <%if(user.isActive){%> 
+          <span>Activated</span>
+
+        <%}else{%>
+        <span>Not Activated</span>
+        <%}%>
+       </p>
+      </div>
+    </div>
+    <div class="extra content">    
+    </div>
+  </div>
+
+<% include ./partials/footer %>
