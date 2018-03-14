@@ -36,19 +36,17 @@ export class BlogEditComponent implements OnInit {
   }
 
   onSubmit(blogForm:NgForm){
-    const blogValue = new Blog(
-      blogForm.value.title,
-      blogForm.value.image,
-      blogForm.value.body,
-      this.likes 
-    )
+    // const blogValue = {
+      
+    // }
 
     if(this.editMode) {
-        this.blogService.updateBlog(this.id , blogValue);
+        this.blogService.updateBlog(this.id , blogForm.value);
     } else {
-      this.blogService.createBlog(blogValue).subscribe(
-        (response:Response)=>{
-          console.log(response);
+      this.blogService.createBlog(blogForm.value).subscribe(
+        (blog:Blog)=>{
+          this.blogService.blogs.push(blog);
+          console.log(this.blogService.blogs);
         }
       )
     }   
@@ -61,12 +59,12 @@ export class BlogEditComponent implements OnInit {
     
 
     if(this.editMode) {
-      const blog = this.blogService.getBlog(this.id);
-      this.editItem = blog;
-      this.likes = blog.likecount;
-      this.blogTitle = blog.title;
-      this.blogImage = blog.image;
-      this.blogBody = blog.body;
+      // const blog = this.blogService.getBlog(this.id);
+      // this.editItem = blog;
+      // this.likes = blog.likecount;
+      // this.blogTitle = blog.title;
+      // this.blogImage = blog.image;
+      // this.blogBody = blog.body;
     } 
 
 

@@ -8,27 +8,26 @@ import 'rxjs/Rx';
 export class BlogService{
     constructor(private http:Http){}
     blogsUpdated = new Subject<Blog>()
-    blogs:Blog[] = [
-      new Blog(
-        "Sacred land",
-        "https://static2.visitestonia.com/images/3060913/original-original-Kaali%2Bsacred%2Bplace.+visit+Estonia-min.jpg",
-        "this is a Sacred land sdbdbsjdbguhsdbghd\r\ndkjdfhjdd\r\nsdhsbdhbdhjbdd\r\nsdjdnjsndjds\r\nsmdksmdksmd\r\nksdmkd",        
-        11
-      ),
-      new Blog(
-        "asnsdjnn",
-        "http://www.silentjourney.com/blog/wp-content/uploads/2015/01/top-10-amazing-places-you-wont-b.jpg",
-        "mksddsksdkmkdjkdfjkjdfj\r\ndjffbjdgfdgfd\r\nbndjhdbjhbss",
-        4
-      )
+    public blogs:Blog[] = [
+      // new Blog(
+      //   "Sacred land",
+      //   "https://static2.visitestonia.com/images/3060913/original-original-Kaali%2Bsacred%2Bplace.+visit+Estonia-min.jpg",
+      //   "this is a Sacred land sdbdbsjdbguhsdbghd\r\ndkjdfhjdd\r\nsdhsbdhbdhjbdd\r\nsdjdnjsndjds\r\nsmdksmdksmd\r\nksdmkd",        
+      //   11
+      // ),
+      // new Blog(
+      //   "asnsdjnn",
+      //   "http://www.silentjourney.com/blog/wp-content/uploads/2015/01/top-10-amazing-places-you-wont-b.jpg",
+      //   "mksddsksdkmkdjkdfjkjdfj\r\ndjffbjdgfdgfd\r\nbndjhdbjhbss",
+      //   4
+      // )
     ];
 
     getBlogs(){
       // console.log("Sddnj");
       return this.http.get('http://localhost:8000/blogs').map(
         (response:Response) => {
-          this.blogs=response.json();
-          console.log(this.blogs);
+          console.log(response.json());
           return response.json();
         }
       )
@@ -38,14 +37,20 @@ export class BlogService{
     createBlog(blog:Blog){
       return this.http.post('http://localhost:8000/blogs' , blog).map(
         (response:Response) => {
-          this.blogs.push(response.json());
+          // this.blogsUpdated.next(response.json());
+          // this.blogs.push(response.json());
           return response.json();
         }
       )
     }
-
-    getBlog(index:number) {
-      return this.blogs[index];
+  
+    getBlog(str:string){
+      return this.http.get('http://localhost:8000/blogs/'+ str).map(
+        (response:Response)=> {
+          console.log(response);
+          return response.json();
+        }
+      )
     }
 
     updateBlog(index:number , updateBlog:Blog){

@@ -9,8 +9,13 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
   styleUrls: ['./blog-detail.component.css']
 })
 export class BlogDetailComponent implements OnInit {
-  blog:Blog;
-  id:number;
+  blog = {
+    title: '',
+    image: '',
+    body: '',
+  }
+  id:string;
+  
   constructor(private blogService:BlogService , 
               private route:ActivatedRoute , 
               private router: Router) { }
@@ -18,8 +23,12 @@ export class BlogDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params:Params) => {
-        this.id = +params['id'];
-        this.blog = this.blogService.getBlog(this.id);
+        this.id = params['id'];
+        this.blogService.getBlog(this.id).subscribe(
+          (blog:Blog)=>{
+            this.blog = blog;
+          }
+        )
       }
     )
   }
@@ -28,12 +37,12 @@ export class BlogDetailComponent implements OnInit {
   }
 
   onDelete(){
-    this.blogService.deleteBlog(this.id);
+    // this.blogService.deleteBlog(this.id);
     this.router.navigate(['/blogs'])
   }
 
   onLike(){
-    this.blogService.likeIncrease(this.id);
+    // this.blogService.likeIncrease(this.id);
   }
 
 }

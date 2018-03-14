@@ -11,7 +11,7 @@
            <p>{{ blog.body }}</p>
        </div>
        <div class="extra">
-           <a class="ui floated right basic blue button" [routerLink]="[index]" >
+           <a class="ui floated right basic blue button" (click)="onReadMore()" >
                Read More
                <i class="right chevron icon"></i>
            </a>

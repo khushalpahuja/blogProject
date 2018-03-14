@@ -35,21 +35,21 @@ router.post("/blogs", function(req,res){
 	});
 });
 var i=0;
-router.get("/blogs/:id",middleware.isLoggedIn , middleware.isActivated , middleware.checkpayment,function(req,res){
+router.get("/blogs/:id",function(req,res){
 	Blog.findById(req.params.id , function(err , foundBlog){
 		if(err){
 			res.redirect("/blogs");
 		}else{
-			let arr = [];
-	
-				Comment.showObject(foundBlog.comments,(err,comment)=>{
-				if(err) console.log('error here',err);
-				else{
-					//console.log('comment in route',comment);
-					res.render("blogs/show",{ blog : foundBlog , arr:comment});
+			// let arr = [];
+			res.json(foundBlog);
+				// Comment.showObject(foundBlog.comments,(err,comment)=>{
+				// if(err) console.log('error here',err);
+				// else{
+				// 	//console.log('comment in route',comment);
+				// 	res.render("blogs/show",{ blog : foundBlog , arr:comment});
 			    
-				}
-				});
+				// }
+				// });
 						
 		
 			//console.log('ndjnfjnfdvjlnfjvnjn',arr);
