@@ -41,18 +41,20 @@ router.get("/blogs/:id",function(req,res){
 			res.redirect("/blogs");
 		}else{
 			// let arr = [];
-			res.json(foundBlog);
-				// Comment.showObject(foundBlog.comments,(err,comment)=>{
-				// if(err) console.log('error here',err);
-				// else{
-				// 	//console.log('comment in route',comment);
-				// 	res.render("blogs/show",{ blog : foundBlog , arr:comment});
-			    
-				// }
-				// });
+			// res.json(foundBlog);
+				Comment.showObject(foundBlog.comments,(err,comment)=>{
+				if(err) console.log('error here',err);
+				else{
+					//console.log('comment in route',comment);
+					// res.render("blogs/show",{ blog : foundBlog , arr:comment});
+					// console.log(comment);
+					res.json({foundBlog,comment});
+				}
+				});
 						
 		
 			//console.log('ndjnfjnfdvjlnfjvnjn',arr);
+			
 			//res.render("blogs/show",{ blog : foundBlog , arr:arr});
 		}
 	});
@@ -70,23 +72,25 @@ router.get("/blogs/:id/edit",middleware.checkBlogOwnership, function(req,res){
 });
 
 //UPDATE
-router.put("/blogs/:id",middleware.checkBlogOwnership, function(req,res){
-	req.body.blog.body = req.sanitize(req.body.blog.body);
-	Blog.findByIdAndUpdate(req.params.id , req.body.blog , function(err,updatedBlog){
+router.put("/blogs/:id", function(req,res){
+	// req.body.blog.body = req.sanitize(req.body.blog.body);
+	Blog.findByIdAndUpdate(req.params.id , req.body ,{new:true}  ,function(err,updatedBlog){
 		if(err){
 			res.redirect("/blogs");
 		}else{
-			res.redirect("/blogs/" + req.params.id);
+			console.log('sdsdsd' + updatedBlog);
+			res.json(updatedBlog);
 		}
 	})
 });
 //delete
-router.delete("/blogs/:id", middleware.checkBlogOwnership, function(req,res){
+router.delete("/blogs/:id",  function(req,res){
 	Blog.findByIdAndRemove(req.params.id , function(err){
 		if(err){
-			res.redirect("/blogs");
+			// res.redirect("/blogs");
 		}else{
-			res.redirect("/blogs");
+			res.json("delete");
+			// res.redirect("/blogs");
 		}
 	})
 });

@@ -1,4 +1,4 @@
-<!-- <div *ngIf="blog"> -->
+<div *ngIf="blog">
 	<div class="ui main text container segment">
 		<div class="ui huge header">{{ blog.title }}</div>
 		<div class="ui top attached">
@@ -27,34 +27,42 @@
 							</div>
 						
 					</div>
-					<div class="five wide column">
-						<a href="/blogs/<%= blog._id %>/comments/new" class="ui large blue button delete">Add comment</a>
+					<div class="three wide column"></div>
+					<div class="two wide column"></div>
+					<div class="two wide column"></div>
+					<div class="two wide column">
+						<a class="button ui orange " (click)="onEdit()" >Edit</a>						
+					</div>
+					<div class="two wide column">
+						<a class="ui red button" (click)="onDelete()" >Delete</a>					
 					</div>
 				</div>
-					<br>
+				
 				<!-- <% if((blog.author.username === currentUser.username)|| currentUser.type === 'admin'){ %> -->
-					<a class="button ui orange " (click)="onEdit()" >Edit</a>
-						<a class="ui red button" (click)="onDelete()" >Delete</a>
 				<!-- <% } %> -->
 			</div>
-			<!-- <div class="comments">
-				<% arr.forEach(function(comment){ %>
-					<div class="comment">
-							<b><%= comment.author.username %></b>
-							<br>
-							<%= comment.text %>
-							<br>
-							<div class="delete">
-								<a href="/blogs/<%= blog._id %>/comments/<%=comment._id%>/edit" class="ui orange mini basic button">edit</a>
-								<form class="delete" action="/blogs/<%= blog._id %>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-									<button class="ui red mini basic button ">delete</button>
-								</form>
-							</div>	
-					</div>
-				<% }) %>
-			</div> -->
+			<div class="ui fluid icon input">
+				<input type="text" name="addComment" #comment placeholder="Comment"  [(ngModel)]="editComment">
+				<button class="ui blue button" (click)="onAddComment(comment)" name="comment" ngDefaultControl>{{btnText}}</button>		
+			</div>
+			
+			<div class="comments" *ngFor="let comment of blog.comments">
+				<div class="comment">
+					
+					<!-- <b>{{ comment.author.username }}</b> -->
+						<br>
+						{{ comment.text }}
+						<br>
+						<div class="delete">
+							<a (click)="onEditComment(comment.text, comment._id)" class="ui orange mini basic button">edit</a>
+							<a (click)="onDeleteComment(comment._id)" class="ui red mini basic button">delete</a>						
+						</div>
+						
+				</div>
+			</div>
+					
 			
 		</div>
 		
 	</div>
-<!-- </div> -->
+</div>

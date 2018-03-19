@@ -7,7 +7,8 @@ import 'rxjs/Rx';
 @Injectable()
 export class BlogService{
     constructor(private http:Http){}
-    blogsUpdated = new Subject<Blog>()
+    blogEdit:Blog;
+    public comment:Comment[];
     public blogs:Blog[] = [
       // new Blog(
       //   "Sacred land",
@@ -27,7 +28,7 @@ export class BlogService{
       // console.log("Sddnj");
       return this.http.get('http://localhost:8000/blogs').map(
         (response:Response) => {
-          console.log(response.json());
+          // console.log(response.json());
           return response.json();
         }
       )
@@ -48,23 +49,41 @@ export class BlogService{
       return this.http.get('http://localhost:8000/blogs/'+ str).map(
         (response:Response)=> {
           console.log(response);
+          this.blogEdit = response.json().foundBlog;
           return response.json();
         }
       )
     }
 
-    updateBlog(index:number , updateBlog:Blog){
-      this.blogs[index] = updateBlog;
+    updateBlog(id:string , updateBlog:Blog){
+      return this.http.put('http://localhost:8000/blogs/'+ id ,updateBlog).map(
+        (response:Response)=> {
+          // console.log(response);
+          return response.json();
+        }
+      )
     }
 
-    deleteBlog(index:number){
-      this.blogs.splice(index,1);
+    deleteBlog(id:string){
+      return this.http.delete('http://localhost:8000/blogs/'+ id);
     }
 
     likeIncrease(index:number){
       this.blogs[index].likecount++;
     }
+
+    addComment(id:string,text:string){
+      // console.log(text);
+      return this.http.post('http://localhost:8000/blogs/'+ id +'/comments' ,{text})
+    }
+
+    editComment(blogId:string ,id:string,text:string){
+      return this.http.put('http://localhost:8000/blogs/'+blogId+'/comments/'+id , {text} );
+    }
     
+    deleteComment(blogId:string ,commentId:string){
+      return this.http.delete('http://localhost:8000/blogs/'+ blogId +'/comments/'+ commentId);
+    }
 
 
 

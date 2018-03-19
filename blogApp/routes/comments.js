@@ -5,7 +5,7 @@ var Blog = require("../models/blog");
 var middleware = require("../middleware/index");
 var i=0;
 //new comment page
-router.get("/blogs/:id/comments/new" , middleware.isActivated , middleware.isLoggedIn, function(req,res){
+router.get("/blogs/:id/comments/new" ,  function(req,res){
     Blog.findById(req.params.id , function(err , blog){
         if(err){
             console.log(err);
@@ -16,16 +16,17 @@ router.get("/blogs/:id/comments/new" , middleware.isActivated , middleware.isLog
 });
 
 //logic new comment
-router.post("/blogs/:id/comments" , middleware.isActivated ,middleware.isLoggedIn, function(req,res){
+router.post("/blogs/:id/comments" , function(req,res){
     Blog.findById(req.params.id , function(err , blog){
         if(err){
             console.log(err);
         } else{
-            var newComment = req.body.comment ;
-            newComment.author = {
-                id : req.user._id , 
-                username : req.user.username
-            };
+            console.log(req.body);
+            var newComment = req.body;
+            // newComment.author = {
+            //     id : req.user._id , 
+            //     username : req.user.username
+            // };
             Comment.create(newComment , function(err,comment){
                 if(err){
                     console.log(err);
@@ -33,10 +34,11 @@ router.post("/blogs/:id/comments" , middleware.isActivated ,middleware.isLoggedI
                     comment.save();
                     blog.comments.push(comment._id);
                     blog.save();
+                    res.json(comment);
                     // console.log("*****************");
                     // console.log(blog) ;
 	                // console.log("*****************"); 
-                    res.redirect("/blogs/" + req.params.id);
+                    // res.redirect("/blogs/" + req.params.id);
                 }
             });
             // console.log('Blog: ', blog);
@@ -56,7 +58,7 @@ router.get("/blogs/:id/comments/:comment_id/edit" ,middleware.checkCommentOwners
     });
 });
 //update
-router.put("/blogs/:id/comments/:comment_id" ,middleware.checkCommentOwnership , function(req,res){
+router.put("/blogs/:id/comments/:comment_id" ,function(req,res){
     Comment.findByIdAndUpdate(req.params.comment_id , req.body.comment , function(err , comment){
         if(err){
             console.log(err);
@@ -66,12 +68,13 @@ router.put("/blogs/:id/comments/:comment_id" ,middleware.checkCommentOwnership ,
     });
 });
 //delete
-router.delete("/blogs/:id/comments/:comment_id" ,middleware.checkCommentOwnership , function(req,res){
+router.delete("/blogs/:id/comments/:comment_id" , function(req,res){
     Comment.findByIdAndRemove(req.params.comment_id , function(err){
         if(err){
             console.log(err);
         } else{
-            res.redirect("/blogs/" + req.params.id);
+            // res.redirect("/blogs/" + req.params.id);
+            res.json("1");
         }
     })
 });

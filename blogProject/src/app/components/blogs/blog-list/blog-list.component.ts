@@ -14,9 +14,9 @@ export class BlogListComponent implements OnInit {
   ngOnInit() {
   this.blogService.getBlogs().subscribe(
     (blogs:Blog[])=>{
-      console.log("blogs:",blogs);
+      // console.log("blogs:",blogs);
       this.blogService.blogs = blogs;
-      console.log("after",this.blogService.blogs);
+      // console.log("after",this.blogService.blogs);
     }
   )
   // this.blogService.blogsUpdated.subscribe(
