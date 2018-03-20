@@ -59,11 +59,12 @@ router.get("/blogs/:id/comments/:comment_id/edit" ,middleware.checkCommentOwners
 });
 //update
 router.put("/blogs/:id/comments/:comment_id" ,function(req,res){
-    Comment.findByIdAndUpdate(req.params.comment_id , req.body.comment , function(err , comment){
+    console.log("edit comment backend");
+    Comment.findByIdAndUpdate(req.params.comment_id , req.body ,{new:true} , function(err , comment){
         if(err){
             console.log(err);
         } else{
-            res.redirect("/blogs/" + req.params.id);
+           res.json(comment);
         }
     });
 });

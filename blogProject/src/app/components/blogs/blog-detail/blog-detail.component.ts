@@ -12,6 +12,7 @@ import { Response } from '@angular/http';
 })
 export class BlogDetailComponent implements OnInit {
   blog :Blog;
+  likecount:number;
   id:string;
   commentsArray;
   editComment='';
@@ -30,6 +31,7 @@ export class BlogDetailComponent implements OnInit {
           (data:any)=>{
             this.blog = data.foundBlog;
             this.blog.comments = data.comment;
+            this.likecount = this.blog.likecount;
           }
         )
       }
@@ -49,30 +51,36 @@ export class BlogDetailComponent implements OnInit {
   }
 
   onLike(){
-    // this.blogService.likeIncrease(this.id);
+    console.log("like button pressed");
+    this.blogService.likeIncrease(this.id , this.blog.likecount).subscribe();
+    this.likecount++;
+
   }
 
   onAddComment(comment:any){
-    console.log(comment);
-    this.blogService.addComment( this.id , comment.value).subscribe(
-      (response:any)=> {
-        console.log("abc");
-        this.blog.comments.push(response.json());
-        console.log(this.blog);
-      // var index = this.blogService.blogs.findIndex(blog=> blog._id===this.id);
-      // console.log(index);              
-      // this.blogService.blogs[index].comments.push(comment.value);
-      }
-    )
+    // console.log(comment);
+    if(this.btnText === 'Edit'){
+      this.blogService.editComment(this.id , this.currentComment._id , comment.value).subscribe(
+        (response:any)=> {
+          console.log(response);
+          this.currentComment.text = response.json().text;
+          console.log("edit comment");
+        }
+      )
+    } else {
+        this.blogService.addComment( this.id , comment.value).subscribe(
+          (response:any)=> {
+            console.log("abc");
+            this.blog.comments.push(response.json());
+            console.log(this.blog);
+          }
+        )
+    }
+    this.btnText = 'Add Comment';
+    this.editComment = '';
+    
   }
 
-  // onEditComment(id:string){
-  //   this.blogService.editComment(this.id , id , comment).subscribe(
-  //     (response:any)=> {
-  //       console.log(this.blog);
-  //     }
-  //   )
-  // }
   onDeleteComment(commentId:string){
     this.blogService.deleteComment(this.id , commentId).subscribe(
       (response:Response)=>{
@@ -82,14 +90,13 @@ export class BlogDetailComponent implements OnInit {
     )
   }
 
-
-
   onEditComment(commentText, commentId:string){
-  this.editComment = commentText;
-  this.btnText = 'Edit'
+    this.editComment = commentText;
+    this.btnText = 'Edit'
     var index = this.blog.comments.findIndex(comment=> comment._id === commentId);
-    this.blog.comments[index].text = this.editComment;    
-    console.log(this.blog.comments,index);
+    // this.blog.comments[index].text = this.editComment;    
+    this.currentComment = this.blog.comments[index];
+    console.log(this.currentComment);
 
   }
 

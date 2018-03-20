@@ -96,31 +96,31 @@ router.delete("/blogs/:id",  function(req,res){
 });
 
 //likes
-router.put("/blogs/:id/like" ,middleware.isLoggedIn , function(req,res){
-	Blog.find({"_id":req.params.id, "liked":req.user._id}, function(err,blog){
+router.put("/blogs/:id/like" , function(req,res){
+	Blog.find({"_id":req.params.id}, function(err,blog){
 		//console.log("blog:",blog);
 		if(err){
 			console.log(err);
 		} else{
 				//console.log(blog.liked);
-				if(blog.length === 0){
+				// if(blog.length === 0){
 					Blog.findById(req.params.id , function(err , blog){
 						if(err){
 							console.log(err);
 						} else{
 							blog.likecount ++;
-							blog.liked.push(req.user._id);
+							// blog.liked.push(req.user._id);
 							blog.save();
 							//console.log("success");
-							res.redirect("/blogs/"+req.params.id);
+							res.json(blog);
 						}
 					});
 					
 				//flash needed
-				} else{
+				// } else{
 					//console.log("failed");
-					res.redirect("/blogs/"+req.params.id);
-				}
+				// 	res.json(blog);
+				// }
 		}
 	});
 });

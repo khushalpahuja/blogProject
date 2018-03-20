@@ -1,0 +1,14 @@
+<div class="ui main text container segment" style="margin-top:70px;">
+	<div class="ui huge header">Login</div>
+	<form class="ui form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+		<div class="field">
+			<label>Username</label>
+			<input type="text" name="username" placeholder="username" ngModel >
+		</div>
+		<div class="field">
+			<label>Password</label>
+			<input type="password" name="password" placeholder="password" ngModel >
+		</div>
+		<button class="ui violet basic big button">Login</button>
+	</form>
+</div>

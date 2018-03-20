@@ -8,7 +8,7 @@
            <span> Created</span>
        </div>
        <div class="description">
-           <p>{{ blog.body }}</p>
+           <p>{{ blog.body.substring(0,100)}}...</p>
        </div>
        <div class="extra">
            <a class="ui floated right basic blue button" (click)="onReadMore()" >
@@ -18,3 +18,6 @@
        </div>
   </div>
 </div>
+<br>
+<!-- <hr> -->
+<br>

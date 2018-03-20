@@ -1,7 +1,7 @@
 import { Blog } from "../models/blog.model";
 import { Subject } from "rxjs/Subject";
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import 'rxjs/Rx';
 
 @Injectable()
@@ -68,8 +68,10 @@ export class BlogService{
       return this.http.delete('http://localhost:8000/blogs/'+ id);
     }
 
-    likeIncrease(index:number){
-      this.blogs[index].likecount++;
+    likeIncrease(BlogId:string , likeCount:number){
+
+      console.log("like service method");
+      return this.http.put('http://localhost:8000/blogs/'+ BlogId + '/like' , {likeCount});
     }
 
     addComment(id:string,text:string){
@@ -78,7 +80,10 @@ export class BlogService{
     }
 
     editComment(blogId:string ,id:string,text:string){
-      return this.http.put('http://localhost:8000/blogs/'+blogId+'/comments/'+id , {text} );
+      console.log("backend call");
+      let headers = new Headers();
+      headers.append('Content-Type','application/json');
+      return this.http.put('http://localhost:8000/blogs/'+blogId+'/comments/'+id , {text} , {headers:headers} );
     }
     
     deleteComment(blogId:string ,commentId:string){

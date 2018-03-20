@@ -4,8 +4,10 @@
     <a routerLink="/blogs" class="item">Blogs</a>
     <a routerLink="/blogs/new" class="item">New Post</a>
     <div class="right menu">
-        <a class="ui item" href="/login">Login</a>
-        <a class="ui item" href="/register">Sign Up</a>
+      <a *ngIf="!this.authService.user" class="ui item" routerLink="/login">Login</a>
+      <a *ngIf="!this.authService.user" class="ui item" routerLink="/signup">Sign Up</a>
+      <a *ngIf="this.authService.user" class="ui item">abc</a>
+      <a *ngIf="this.authService.user" class="ui item" (click)="onLogout()" >Logout</a>        
     </div>
   </div>
 </div>
