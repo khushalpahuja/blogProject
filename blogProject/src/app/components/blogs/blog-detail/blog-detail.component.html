@@ -4,15 +4,16 @@
 		<div class="ui top attached">
 			<div class="item">
 				<img class="ui centered rounded image" [src]="blog.image" >
+				<br>
 				<div class="content">
-					<span> {{blog.created}}</span>
+					<span><b> {{blog.created | date : 'dd/MM/yyyy'}}</b></span>
 				</div>
 				<div class="description">
 					<p> {{ blog.body }} </p>
 				</div>
 	
 				<div class="content">
-					<span>Created By:  <b> {{blog.author.username}} </b></span>
+					<span><h3>Created By:  <b> {{blog.author.username}} </b></h3></span>
 				</div>
 				<br>
 				<div class="ui grid blog-button">
@@ -30,10 +31,10 @@
 					<div class="three wide column"></div>
 					<div class="two wide column"></div>
 					<div class="two wide column"></div>
-					<div class="two wide column">
+					<div class="two wide column" *ngIf="isBlogOwner">
 						<a class="button ui orange " (click)="onEdit()" >Edit</a>						
 					</div>
-					<div class="two wide column">
+					<div class="two wide column" *ngIf="isBlogOwner" >
 						<a class="ui red button" (click)="onDelete()" >Delete</a>					
 					</div>
 				</div>
@@ -45,20 +46,37 @@
 				<input type="text" name="addComment" #comment placeholder="Comment"  [(ngModel)]="editComment">
 				<button class="ui blue button" (click)="onAddComment(comment)" name="comment" ngDefaultControl>{{btnText}}</button>		
 			</div>
-			
-			<div class="comments" *ngFor="let comment of blog.comments">
-				<div class="comment">
-					
-					<!-- <b>{{ comment.author.username }}</b> -->
+			<br>
+			<div class=" ui comments" >
+					<div class="comment" *ngFor="let comment of blog.comments">
+						<a class="avatar">
+							<img src="https://image.freepik.com/icones-gratis/masculino-sombra-usuario_318-34042.jpg">
+						</a>
+						<div class="content">
+							<a class="author">{{ comment.author.username }}</a>
+						</div>
+						<div class="text" style="padding-left:50px;">
+							{{ comment.text }}
+						</div>
+						<div class="delete" style="padding-left:40px;" *ngIf="comment.author.id == this.authService.user._id || this.authService.user.type==='admin'">
+							<a (click)="onEditComment(comment.text, comment._id)" class="ui orange mini basic button">edit</a>
+							<a (click)="onDeleteComment(comment._id)" class="ui red mini basic button">delete</a>						
+						</div>
+						<br>
+					</div>
+				<!-- <div class="comment">
+					<i class="user icon"></i>
+					<b>{{ comment.author.username }}</b>
 						<br>
 						{{ comment.text }}
 						<br>
-						<div class="delete">
+						<div class="delete" *ngIf="comment.author.id == this.authService.user._id || this.authService.user.type==='admin'">
 							<a (click)="onEditComment(comment.text, comment._id)" class="ui orange mini basic button">edit</a>
 							<a (click)="onDeleteComment(comment._id)" class="ui red mini basic button">delete</a>						
 						</div>
 						
-				</div>
+				</div> -->
+				
 			</div>
 					
 			

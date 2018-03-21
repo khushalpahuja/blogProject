@@ -1,0 +1,24 @@
+<div class="space" style="margin-top:100px;"></div>
+<div class="ui centered card">
+  <div class="ui huge centered header">  
+  User: {{user.username}}
+</div>
+    <div class="image">
+      <!-- <img  src="<%=user.image%>"> -->
+    </div>
+    <div class="content">
+      <a class="header">{{user.username}}</a>
+      <div class="description">
+         <p>D.O.B.: {{user.dob}}</p>
+         <p>Mobile Number : {{user.phone}}</p>
+         <p>Email:{{user.email}}</p>
+         <p>Type : {{user.type}}</p>
+         <p>Activation Status :
+          <span  *ngIf="user.isActive">Activated</span>
+        <span  *ngIf="!user.isActive">Not Activated</span>
+       </p>
+      </div>
+    </div>
+    <div class="extra content">    
+    </div>
+  </div>

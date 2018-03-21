@@ -57,4 +57,10 @@ export class AuthService{
         headers.append('Authorization',localStorage.getItem('token'));
         return this.http.put('http://localhost:8000/admin/'+userId , {},{headers:headers});
     }
+
+    dashboard(userId:string) {
+        let headers = new Headers();  
+        headers.append('Authorization',localStorage.getItem('token'));
+        return this.http.get('http://localhost:8000/user/'+ userId + '/dashboard' , {headers:headers})
+    }
 }

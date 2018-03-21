@@ -3,16 +3,16 @@
 	<form class="ui form" (ngSubmit)="onSubmit(blogForm)" #blogForm="ngForm" >
 		<div class="field">
 			<label>Title</label>
-			<input type="text" placeholder="title" [ngModel]="blogTitle" name="title" >
+			<input type="text" placeholder="title" [ngModel]="blogTitle" name="title" required>
 		</div>
 		<div class="field">
 			<label>Image</label>
-			<input type="text" placeholder="image" [ngModel]="blogImage" name="image"  >
+			<input type="text" placeholder="image" [ngModel]="blogImage" name="image"  required >
 		</div>
 		<div class="field">
 			<label>Body</label>
-			<textarea name="body" [ngModel]="blogBody"  ></textarea>
+			<textarea name="body" [ngModel]="blogBody"  required ></textarea>
 		</div>
-		<button class="ui violet basic big button" type="submit">Submit</button>
+		<button [disabled]="!blogForm.value" class="ui violet basic big button" type="submit">Submit</button>
 	</form>
 </div>

@@ -3,12 +3,12 @@
 	<form class="ui form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
 		<div class="field">
 			<label>Username</label>
-			<input type="text" name="username" placeholder="username" ngModel >
+			<input type="text" name="username" placeholder="username" ngModel required>
 		</div>
 		<div class="field">
 			<label>Password</label>
-			<input type="password" name="password" placeholder="password" ngModel >
+			<input type="password" name="password" placeholder="password" ngModel required>
 		</div>
-		<button class="ui violet basic big button">Login</button>
+		<button [disabled]="!loginForm.valid" class="ui violet basic big button">Login</button>
 	</form>
 </div>

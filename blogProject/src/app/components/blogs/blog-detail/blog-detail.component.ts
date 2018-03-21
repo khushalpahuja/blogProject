@@ -4,6 +4,7 @@ import { Blog } from '../../../models/blog.model';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Comment } from '../../../models/comment.model';
 import { Response } from '@angular/http';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-blog-detail',
@@ -17,11 +18,13 @@ export class BlogDetailComponent implements OnInit {
   commentsArray;
   editComment='';
   currentComment;
+  isBlogOwner:boolean;
   btnText = 'Add Comment';
   
   constructor(private blogService:BlogService ,
               private route:ActivatedRoute , 
-              private router: Router) { }
+              private router: Router ,
+              private authService:AuthService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -32,6 +35,11 @@ export class BlogDetailComponent implements OnInit {
             this.blog = data.foundBlog;
             this.blog.comments = data.comment;
             this.likecount = this.blog.likecount;
+            if(this.blog.author.id == this.authService.user._id || this.authService.user.type==='admin'){
+              this.isBlogOwner = true;
+            } else {
+              this.isBlogOwner = false;
+            }
           }
         )
       }
@@ -52,9 +60,14 @@ export class BlogDetailComponent implements OnInit {
 
   onLike(){
     console.log("like button pressed");
-    this.blogService.likeIncrease(this.id , this.blog.likecount).subscribe();
-    this.likecount++;
-
+    this.blogService.likeIncrease(this.id , this.blog.likecount).subscribe(
+      (response:Response)=> {
+        if(response.json().success) {
+          this.likecount++;
+        }
+      }
+    );
+    
   }
 
   onAddComment(comment:any){
@@ -70,7 +83,7 @@ export class BlogDetailComponent implements OnInit {
     } else {
         this.blogService.addComment( this.id , comment.value).subscribe(
           (response:any)=> {
-            console.log("abc");
+            console.log(response.json());
             this.blog.comments.push(response.json());
             console.log(this.blog);
           }

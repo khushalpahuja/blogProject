@@ -7,7 +7,7 @@ export class Blog{
     	public image : string , 
         public body : string , 
         public likecount : number,
-        author : {
+        public author : {
             id : string,
             username : String
         }, 

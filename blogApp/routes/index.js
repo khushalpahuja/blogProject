@@ -5,6 +5,7 @@ var Comment = require("../models/comment");
 var User = require("../models/user");
 var Blog = require("../models/blog");
 var bcrypt = require("bcryptjs");
+var middleware = require("../middleware/index");
 var JwtStrategy 			=          require('passport-jwt').Strategy;
 var jwt                     = 			require('jsonwebtoken');
 var ExtractJwt 				=          require('passport-jwt').ExtractJwt;
@@ -94,11 +95,12 @@ router.post('/login',(req,res,next)=>{
 				msg:"Successfully login",
 				token:`Bearer ${token}`,
 				user:{
-					id        :   user._id,
+					_id        :   user._id,
 					username  :   user.username,
-					date      :   user.date,
+					dob      :   user.dob,
 					phone     :   user.phone,
-					activated :   user.activated
+                    activated :   user.activated,
+                    type      :   user.type
 
 				}
 			});	
@@ -117,23 +119,21 @@ router.get("/logout" , function(req,res){
     
   });
 
-router.delete("/user/:id" , function(req,res){
-    User.findByIdAndRemove(req.params.id , function(err){
-        if(err){
-            res.redirect("back");
-        } else{
-            res.redirect("/admin");
-        }
-    })
-})
 
 //dashboard
-router.get("/user/:id/dashboard" , function(req,res){
+router.get("/user/:id/dashboard", middleware.auth , function(req,res){
+    console.log("dashboard");
+    console.log("+++++++++++++++++++++++++++++++++++");    
+    console.log("id:", req.params.id);
+    console.log("+++++++++++++++++++++++++++++++++++");        
     User.findById(req.params.id , function(err,user){
         if(err){
             console.log(err);
         } else{
-            res.render("dashboard",{user:user});
+            res.json({
+                success:true,
+                user:user
+            })
         }
     });
 });

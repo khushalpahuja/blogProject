@@ -18,6 +18,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const appRoutes:Routes = [
   { path: '' , component:HomeComponent },  
@@ -29,7 +30,8 @@ const appRoutes:Routes = [
   ]},
   { path:'signup' , component:SignupComponent },
   { path:'login' , component:LoginComponent } , 
-  { path:'admin' , component:AdminComponent }
+  { path:'admin' , component:AdminComponent , canActivate:[AuthService] } ,
+  { path:'dashboard', component:DashboardComponent , canActivate:[AuthService] }
 ]
 
 
@@ -45,7 +47,8 @@ const appRoutes:Routes = [
     HeaderComponent,
     SignupComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

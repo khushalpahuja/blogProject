@@ -43,12 +43,6 @@ export class BlogEditComponent implements OnInit {
     if(this.editMode) {
         this.blogService.updateBlog(this.id , blogForm.value).subscribe(
           (blog:Blog)=>{
-            // this.blogService.blogs.forEach(function(blog1){
-            //   if(blog1._id === blog._id){
-            //     blog1 = blog;
-            //     console.log("1234",blog1)                
-            //   }
-            // })
             console.log("UpdateBlog",blog);
             this.router.navigate(['../'] , {relativeTo:this.route});
           }
@@ -67,7 +61,7 @@ export class BlogEditComponent implements OnInit {
     }   
    
     console.log(this.blogService.blogs);
-    
+    blogForm.reset();
   }
 
   private initForm() {

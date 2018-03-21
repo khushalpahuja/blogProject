@@ -29,4 +29,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
 
   }
+  onDashboard(){
+    if(this.authService.user.type === 'admin') {
+      this.router.navigate(['/admin']);      
+    } else {
+      this.router.navigate(['/dashboard']);   
+    }
+  }
 }

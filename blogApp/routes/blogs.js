@@ -6,7 +6,7 @@ var middleware =require("../middleware/index");
 
 router.get("/blogs",function(req,res){
 
-	console.log("reqquser",req.user);
+	// console.log("reqquser",req.user);
 	Blog.find({},function(err,blogs){
 		if(err){
 			console.log("ERROR!");
@@ -82,30 +82,30 @@ router.delete("/blogs/:id",middleware.auth , middleware.checkBlogOwnership,  fun
 
 //likes
 router.put("/blogs/:id/like" ,middleware.auth , function(req,res){
-	Blog.find({"_id":req.params.id}, function(err,blog){
+	Blog.find({"_id":req.params.id , "liked":req.user._id}, function(err,blog){
 		//console.log("blog:",blog);
 		if(err){
 			console.log(err);
 		} else{
 				//console.log(blog.liked);
-				// if(blog.length === 0){
+				if(blog.length === 0){
 					Blog.findById(req.params.id , function(err , blog){
 						if(err){
 							console.log(err);
 						} else{
 							blog.likecount ++;
-							// blog.liked.push(req.user._id);
+							blog.liked.push(req.user._id);
 							blog.save();
 							//console.log("success");
-							res.json(blog);
+							res.json({blog:blog , success:true});
 						}
 					});
 					
 				//flash needed
-				// } else{
+				} else{
 					//console.log("failed");
-				// 	res.json(blog);
-				// }
+					res.json({blog:blog , success:false});
+				}
 		}
 	});
 });
