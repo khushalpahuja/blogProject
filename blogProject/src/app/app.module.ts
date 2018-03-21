@@ -17,17 +17,19 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 const appRoutes:Routes = [
   { path: '' , component:HomeComponent },  
   { path: 'blogs' , children:[
     { path:'' , component: BlogsComponent },
-    { path:'new' , component:BlogEditComponent },
-    { path:':id', component : BlogDetailComponent },
-    { path:':id/edit', component:BlogEditComponent }
+    { path:'new' , component:BlogEditComponent, canActivate:[AuthService] },
+    { path:':id', component : BlogDetailComponent, canActivate:[AuthService] },
+    { path:':id/edit', component:BlogEditComponent , canActivate:[AuthService]  }
   ]},
   { path:'signup' , component:SignupComponent },
-  { path:'login' , component:LoginComponent }
+  { path:'login' , component:LoginComponent } , 
+  { path:'admin' , component:AdminComponent }
 ]
 
 
@@ -42,7 +44,8 @@ const appRoutes:Routes = [
     HomeComponent,
     HeaderComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

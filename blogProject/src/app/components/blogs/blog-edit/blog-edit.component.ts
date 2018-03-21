@@ -56,9 +56,11 @@ export class BlogEditComponent implements OnInit {
         
     } else {
       this.blogService.createBlog(blogForm.value).subscribe(
-        (blog:Blog)=>{
-          this.blogService.blogs.push(blog);
-          console.log(this.blogService.blogs);
+        (blog:any)=>{
+          if(blog.success){
+            this.blogService.blogs.push(blog.blog);
+            console.log(this.blogService.blogs);
+          }
           this.router.navigate(['/blogs']);
         }
       )

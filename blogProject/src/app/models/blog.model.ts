@@ -7,6 +7,11 @@ export class Blog{
     	public image : string , 
         public body : string , 
         public likecount : number,
+        author : {
+            id : string,
+            username : String
+        }, 
+        public liked: string[] ,
         public comments : Comment[]
         ){}
 }

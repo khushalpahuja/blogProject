@@ -6,7 +6,8 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class BlogService{
-    constructor(private http:Http){}
+    constructor(private http:Http){
+    }
     blogEdit:Blog;
     public comment:Comment[];
     public blogs:Blog[] = [
@@ -36,7 +37,9 @@ export class BlogService{
     }
 
     createBlog(blog:Blog){
-      return this.http.post('http://localhost:8000/blogs' , blog).map(
+    let headers = new Headers();    
+    headers.append('Authorization',localStorage.getItem('token'));                     
+      return this.http.post('http://localhost:8000/blogs' , blog , {headers:headers}).map(
         (response:Response) => {
           // this.blogsUpdated.next(response.json());
           // this.blogs.push(response.json());
@@ -46,7 +49,9 @@ export class BlogService{
     }
   
     getBlog(str:string){
-      return this.http.get('http://localhost:8000/blogs/'+ str).map(
+    let headers = new Headers(); 
+    headers.append('Authorization',localStorage.getItem('token'));               
+      return this.http.get('http://localhost:8000/blogs/'+ str , {headers:headers}).map(
         (response:Response)=> {
           console.log(response);
           this.blogEdit = response.json().foundBlog;
@@ -56,7 +61,10 @@ export class BlogService{
     }
 
     updateBlog(id:string , updateBlog:Blog){
-      return this.http.put('http://localhost:8000/blogs/'+ id ,updateBlog).map(
+    let headers = new Headers();  
+    headers.append('Authorization',localStorage.getItem('token'));
+    headers.append('Content-Type','application/json');                                                             
+      return this.http.put('http://localhost:8000/blogs/'+ id ,updateBlog , {headers:headers}).map(
         (response:Response)=> {
           // console.log(response);
           return response.json();
@@ -65,29 +73,38 @@ export class BlogService{
     }
 
     deleteBlog(id:string){
-      return this.http.delete('http://localhost:8000/blogs/'+ id);
+    let headers = new Headers(); 
+    headers.append('Authorization',localStorage.getItem('token'));               
+      return this.http.delete('http://localhost:8000/blogs/'+ id,{headers:headers});
     }
 
     likeIncrease(BlogId:string , likeCount:number){
-
+      let headers = new Headers();      
+      headers.append('Authorization',localStorage.getItem('token')); 
+      headers.append('Content-Type','application/json');                                                                                     
       console.log("like service method");
-      return this.http.put('http://localhost:8000/blogs/'+ BlogId + '/like' , {likeCount});
+      return this.http.put('http://localhost:8000/blogs/'+ BlogId + '/like' , {likeCount},{headers:headers});
     }
 
     addComment(id:string,text:string){
+    let headers = new Headers();      
+    headers.append('Authorization',localStorage.getItem('token')); 
       // console.log(text);
-      return this.http.post('http://localhost:8000/blogs/'+ id +'/comments' ,{text})
+      return this.http.post('http://localhost:8000/blogs/'+ id +'/comments' ,{text},{headers:headers})
     }
 
-    editComment(blogId:string ,id:string,text:string){
+    editComment(blogId:string ,id:string,text:string){    
       console.log("backend call");
       let headers = new Headers();
+      headers.append('Authorization',localStorage.getItem('token')); 
       headers.append('Content-Type','application/json');
       return this.http.put('http://localhost:8000/blogs/'+blogId+'/comments/'+id , {text} , {headers:headers} );
     }
     
     deleteComment(blogId:string ,commentId:string){
-      return this.http.delete('http://localhost:8000/blogs/'+ blogId +'/comments/'+ commentId);
+    let headers = new Headers();   
+    headers.append('Authorization',localStorage.getItem('token'));          
+      return this.http.delete('http://localhost:8000/blogs/'+ blogId +'/comments/'+ commentId,{headers:headers});
     }
 
 

@@ -2,37 +2,35 @@ var Blog = require("../models/blog");
 var Comment = require("../models/comment");
 var User = require("../models/user");
 var middlewareObj = {};
+var passport = require("passport");
 
-middlewareObj.isLoggedIn = function(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }   
-    res.redirect("/login");
-}
+middlewareObj.auth=passport.authenticate('jwt',{failureRedirect:"/failureRedirect",session:false});
+
+
+
 
 middlewareObj.isActivated = function(req,res,next){
-    if(req.isAuthenticated() && (req.user.isActive || req.user.type === "admin")){
+    if(req.user.isActive || req.user.type === "admin"){
         return next();
     }
-    res.redirect("/blogs");
+    res.json({success:false ,msg:"you are not activated"})
 }
 
 middlewareObj.isAdmin = function(req,res,next){
-    if(req.isAuthenticated() && req.user.type === "admin"){
+    if(req.user.type === "admin"){
         return next();
     }
-    res.redirect("/blogs");
+    res.json({success:false , msg:"You are not the admin"})
 }
 
 middlewareObj.isNotUser = function(req,res,next){
-    if(req.isAuthenticated() && req.user.type !== "user"){
+    if(req.user.type !== "user"){
         return next();
     }   
-    res.redirect("/blogs");
+    res.json({success:false , msg:"You are not the publisher"})
 }
 
 middlewareObj.checkCommentOwnership = function(req,res,next){
-    if(req.isAuthenticated()){
         if(req.user.type === "admin"){
             console.log("2");
             next();
@@ -40,23 +38,19 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
             Comment.findById(req.params.comment_id , function(err,comment){
                 console.log("3");
                 if(err){
-                    console.log(err);
+                    res.json({success:false,msg:"Error in find the comment!"})
                 } else{
                     if(comment.author.id.equals(req.user._id)){
                         next();
                     } else{
-                        res.redirect("/blogs/" + req.params.id);
+                        res.json({success:false,msg:"You don't have permission to do this !"})
                     }
                 }
             });
         }
-    } else {
-        res.redirect("/login");
-    }
 };
 
 middlewareObj.checkBlogOwnership = function(req,res,next){
-    if(req.isAuthenticated()){
         if(req.user.type === "admin"){
             console.log("2");
             next();
@@ -64,21 +58,18 @@ middlewareObj.checkBlogOwnership = function(req,res,next){
             Blog.findById(req.params.id , function(err,blog){
                 console.log("3");
                 if(err){
-                    res.redirect("/");
+                    res.json({success:false , msg:"Something went wrong"})
                 } else{
                     // console.log(blog);
                     // console.log(req.params.id);
                     if(blog.author.id.equals(req.user._id)){
                         next();
                     } else{
-                        res.redirect("/blogs");
+                        res.json({success:false,msg:"You are not the owner"})
                     }
                 }
             });
         }     
-    } else{
-        res.redirect("/login");
-    }
 };
 
 middlewareObj.checkpayment=function(req,res,next){

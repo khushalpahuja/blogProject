@@ -6,7 +6,7 @@
     <div class="right menu">
       <a *ngIf="!this.authService.user" class="ui item" routerLink="/login">Login</a>
       <a *ngIf="!this.authService.user" class="ui item" routerLink="/signup">Sign Up</a>
-      <a *ngIf="this.authService.user" class="ui item">abc</a>
+      <a *ngIf="this.authService.user" class="ui item">{{ this.authService.user.username }} </a>
       <a *ngIf="this.authService.user" class="ui item" (click)="onLogout()" >Logout</a>        
     </div>
   </div>

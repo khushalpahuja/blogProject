@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -7,18 +9,24 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  user;
-  constructor(public authService : AuthService) { }
+  username:string = '';
+  constructor(public authService : AuthService,private router:Router) { }
 
   ngOnInit() {
     this.authService.setUser();
-    this.user = this.authService.user;
-    this.authService.user = this.user;
+    // console.log(this.authService.user,"authuser");
+    // console.log(this.user,"local user");
+    // this.authService.user = this.user;
+    // if(this.authService.user)
+    // this.authService.user.username = this.username;
     
   }
 
   onLogout(){
     localStorage.clear();
     this.authService.user = null;
+    this.authService.authToken = undefined;
+    this.router.navigate(['/']);
+
   }
 }

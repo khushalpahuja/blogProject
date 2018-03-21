@@ -1,0 +1,46 @@
+<div class="ui container centered card admin-active space">
+  <h1>Admin Portal</h1>
+<table class="ui celled table space" id="admin-table">
+<thead>
+<tr>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Status</th>
+  <th>Button</th>
+</tr>
+</thead>
+<tbody>
+  <!-- <% users.forEach(function(user){ var i=0; %> -->
+<tr *ngFor="let user of users">
+      <td>
+          {{user.username}} 
+      </td>
+      <td>
+          {{ user.type }}
+      </td>
+      <!-- <% if(user.isActive){ %> -->
+          <td *ngIf="user.isActive" class="positive">
+               Activated
+          </td>
+          <td *ngIf="!user.isActive" class="negative">
+                Not Activated
+          </td>
+          <td *ngIf="user.isActive">
+              <!-- <form action="/admin/<%= user._id %>?_method=PUT" method="POST"> -->
+                  <button (click)="activation(user._id)" class="ui mini blue button">Deactivate</button>
+              <!-- </form> -->
+          </td>
+     <!-- <% } else{ %> -->
+          
+          <td *ngIf="!user.isActive">
+              <!-- <form action="/admin/<%= user._id %>?_method=PUT" method="POST"> -->
+                  <button (click)="activation(user._id)" class="ui mini blue button">Activate</button>
+              <!-- </form> -->
+          </td>
+      <!-- <% } %> -->
+      
+</tr>
+<!-- <% }) %> -->
+</tbody>
+</table>
+</div>

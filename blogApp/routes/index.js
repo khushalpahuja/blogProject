@@ -18,22 +18,28 @@ var comparePassword=function(candidatePassword,hash,callback){
 
 // home route
 router.get("/" , function(req,res){
+    console.log("admin created");
     var newUser = new User({username : "admin" , type : "admin" , isActive : true});
-    User.register(newUser , "admin" , function(err,user){
-	if(err){
-		console.log(err);   
-	}
-	passport.authenticate("local")(req , res , function(){
-		res.redirect("/blogs");
-	}); 
-});
-    res.render("landing");
+    var password = "admin";
+    bcrypt.genSalt(10,(err,salt)=>{
+        bcrypt.hash(password,salt,(err,hash)=>{
+            if(err) throw err;
+            newUser.password=hash;
+
+            newUser.save((err,user)=>{
+                if(err)
+                    console.log(err);
+            //    return res.json({success:false,msg:"This username is already registered !"});
+                if(user){
+                    console.log(user);
+                    // res.json({success:true,msg:"You are Registered"});  
+                }   
+            });
+        });
+    });
 });
 
 //authentication
-router.get("/register", function(req,res){
-    res.render("register");
-});
 
 router.post("/register" , function(req,res){
    // console.log(req.body.username);
